@@ -4,6 +4,7 @@ import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SearchScreen = () => {
   const [term, setTerm] = useState("");
@@ -17,7 +18,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <SearchBar
         term={term}
         onTermChange={setTerm}
@@ -26,17 +27,25 @@ const SearchScreen = () => {
         }}
       />
       {errorMessage ? <Text>{errorMessage}</Text> : null}
-      <Text>We have found {restaurants.length} restaurants</Text>
-      <ResultsList title="Cost Effective" results={filterResultsByPrice("$")} />
-      <ResultsList title="Bit Pricier" results={filterResultsByPrice("$$")} />
-      <ResultsList title="Big Spender" results={filterResultsByPrice("$$$")} />
-    </View>
+      <ScrollView>
+        <ResultsList
+          title="Cost Effective"
+          results={filterResultsByPrice("$")}
+        />
+        <ResultsList title="Bit Pricier" results={filterResultsByPrice("$$")} />
+        <ResultsList
+          title="Big Spender"
+          results={filterResultsByPrice("$$$")}
+        />
+      </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
+    flex: 1,
   },
 });
 
